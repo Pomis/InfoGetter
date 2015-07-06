@@ -1,9 +1,11 @@
 package app.pomis.infogetter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
@@ -11,6 +13,9 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+
+import java.io.UnsupportedEncodingException;
+import java.util.UUID;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -24,8 +29,7 @@ public class MainActivity extends ActionBarActivity {
         WifiInfo info = manager.getConnectionInfo();
         String address = info.getMacAddress();
 
-        TelephonyManager tManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-        String uuid = tManager.getDeviceId();
+        String uuid = new DeviceUuidFactory(this).getDeviceUuid().toString();
 
         TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
         String imei = telephonyManager.getDeviceId();
@@ -96,4 +100,6 @@ public class MainActivity extends ActionBarActivity {
         }
         return phrase;
     }
+
+
 }
