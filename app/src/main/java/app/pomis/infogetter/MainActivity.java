@@ -1,5 +1,7 @@
 package app.pomis.infogetter;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiInfo;
@@ -12,7 +14,10 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
 import java.util.UUID;
@@ -20,11 +25,12 @@ import java.util.UUID;
 
 public class MainActivity extends ActionBarActivity {
 
+    String str = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        String str = "";
+
         WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = manager.getConnectionInfo();
         String address = info.getMacAddress();
@@ -36,12 +42,16 @@ public class MainActivity extends ActionBarActivity {
 
         String device = getDeviceName();
 
+        String deviceId = Settings.Secure.getString(this.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+
         str += "MAC: "+address+"\n";
         str += "UUID: "+uuid+"\n";
         str += "IMEI: "+imei+"\n";
-        str += "Name: "+device;
+        str += "Name: "+device+"\n";
+        str += "Device ID: "+deviceId;
 
-        ((EditText)findViewById(R.id.et)).setText(str);
+        ((TextView)findViewById(R.id.et)).setText(str);
 
     }
 
@@ -102,4 +112,9 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
+    public void guygjh(View view) {
+        ClipboardManager clipMan = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        clipMan.setPrimaryClip(ClipData.newPlainText("label", str));
+        Toast.makeText(this, "COPIED", Toast.LENGTH_SHORT);
+    }
 }
