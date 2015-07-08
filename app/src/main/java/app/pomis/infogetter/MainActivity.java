@@ -45,11 +45,12 @@ public class MainActivity extends ActionBarActivity {
         String deviceId = Settings.Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
 
-        str += "MAC: "+address+"\n";
-        str += "UUID: "+uuid+"\n";
-        str += "IMEI: "+imei+"\n";
-        str += "Name: "+device+"\n";
-        str += "Device ID: "+deviceId;
+	    str += "Name: "+device+"\n";
+	    str += "Device ID: "+deviceId;
+        str += "GUID: "+uuid+"\n";
+	    str += "IMEI: "+imei+"\n";
+	    str += "MAC: "+address+"\n";
+        str += "IP: x.x.x.x(RU)";
 
         ((TextView)findViewById(R.id.et)).setText(str);
 
