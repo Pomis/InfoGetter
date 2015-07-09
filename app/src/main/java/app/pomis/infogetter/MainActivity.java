@@ -25,12 +25,22 @@ import java.util.UUID;
 
 public class MainActivity extends ActionBarActivity {
 
+    //singleton
+    private static MainActivity instance=null;
+    public static MainActivity getInstance(){
+        return instance;
+    }
+
     String str = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        instance = this;
+
         setContentView(R.layout.activity_main);
 
+        new AsyncIPCheck().execute("http://ip-api.com/json");
         WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         WifiInfo info = manager.getConnectionInfo();
         String address = info.getMacAddress();
@@ -45,12 +55,15 @@ public class MainActivity extends ActionBarActivity {
         String deviceId = Settings.Secure.getString(this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
 
+       // String ip = NetworkUtils.getIpAddress();
+
+
 	    str += "Name: "+device+"\n";
 	    str += "Device ID: "+deviceId;
         str += "GUID: "+uuid+"\n";
 	    str += "IMEI: "+imei+"\n";
 	    str += "MAC: "+address+"\n";
-        str += "IP: x.x.x.x(RU)";
+        //str += "IP: "+ip;//"IP: x.x.x.x(RU)";
 
         ((TextView)findViewById(R.id.et)).setText(str);
 
@@ -117,5 +130,10 @@ public class MainActivity extends ActionBarActivity {
         ClipboardManager clipMan = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
         clipMan.setPrimaryClip(ClipData.newPlainText("label", str));
         Toast.makeText(this, "COPIED", Toast.LENGTH_SHORT);
+    }
+
+    public void setIP(String ip) {
+        str += ip;
+        ((TextView)findViewById(R.id.et)).setText(str);
     }
 }
