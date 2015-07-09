@@ -59,7 +59,7 @@ public class MainActivity extends ActionBarActivity {
 
 
 	    str += "Name: "+device+"\n";
-	    str += "Device ID: "+deviceId;
+	    str += "Device ID: "+deviceId+"\n";
         str += "GUID: "+uuid+"\n";
 	    str += "IMEI: "+imei+"\n";
 	    str += "MAC: "+address+"\n";
